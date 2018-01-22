@@ -1,11 +1,11 @@
-// week of code 2, problem 1, "manasa and stones", Easy
+// week of code 2; problem 1; "manasa and stones"; Easy;
 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 
-std::vector <int> stones(int n, int a, int b) {
+std::vector<int> stones(int n, int a, int b) {
   std::vector<int> out;
   for (int i=0; i<n; i++) {
     int j = (n - i - 1) * a + (i * b);
@@ -23,18 +23,18 @@ std::vector <int> stones(int n, int a, int b) {
 int main() {
   int T;
   std::cin >> T;
-  for(int a0 = 0; a0 < T; a0++){
+  for(int a0=0; a0<T; a0++){
     int n;
     std::cin >> n;
     int a;
     std::cin >> a;
     int b;
     std::cin >> b;
-    std::vector <int> result = stones(n, a, b);
-    for (ssize_t i = 0; i < result.size(); i++) {
+    std::vector<int> result = stones(n, a, b);
+    for (ssize_t i=0; i<result.size(); i++) {
       std::cout << result[i] << (i != result.size() - 1 ? " " : "");
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   return 0;
 }
