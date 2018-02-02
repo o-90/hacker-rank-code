@@ -23,7 +23,7 @@ std::vector<int> stones(int n, int a, int b) {
 int main() {
   int T;
   std::cin >> T;
-  for(int a0=0; a0<T; a0++){
+  for(int a0=0; a0<T; a0++) {
     int n;
     std::cin >> n;
     int a;
