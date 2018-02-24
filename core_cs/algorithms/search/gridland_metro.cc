@@ -1,37 +1,78 @@
-/* ---------------------------------------------------------------------------
- * The city of Gridland is represented as an (n x m) matrix where the rows
- * are numbered from 1 to n and the columns are numbered from 1 to m.
- * Gridland has a network of train tracks that always run in straight
- * horizontal lines along a row. In other words, the start and end points of
- * a train track are  and , where  represents the row number,  represents the
- * starting column, and  represents the ending column of the train track.  The
- * mayor of Gridland is surveying the city to determine the number of
- * locations where lampposts can be placed. A lamppost can be placed in any
- * cell that is not occupied by a train track.
- *
- * Given a map of Gridland and its  train tracks, find and print the number
- * of cells where the mayor can place lampposts.
- *
- * Note: A train track may (or may not) overlap other train tracks within the
- * same row.
- * -------------------------------------------------------------------------*/
-
 #include <algorithm>
 #include <iostream>
+#include <stack>
+#include <string>
 #include <vector>
+#include <utility>
 
 using namespace std;
 
 
-int main () {
-  int n, m, k;
-  cin >> n >> m >> k;
-  vector< vector<int> > track(k, vector<int>(3))
-  for (int i=0; i<k; i++) {
-    for (int j=0; j<3; j++) {
-      con >> track[i][j];
+typedef unsigned long long ull;
+typedef vector<vector<ull> > vvi;
+typedef pair<ull, ull> pi;
+typedef stack<pair<ull, ull> > sp;
+typedef vector<pair<ull, ull> > vp;
+
+
+bool compare_interval(pi p1, pi p2) {
+  return (p1.first < p2.first);
+}
+
+ull merge_intervals(vp arr) {
+  int n = arr.size();
+
+  if (n <= 0) {
+    return -1;
+  }
+
+  sp s;
+  sort(arr.begin(), arr.end(), compare_interval);
+  s.push(arr[0]);
+
+  for (int i=1; i<n; i++) {
+    pi top = s.top();
+    if (top.second < arr[i].first) {
+      s.push(arr[i]);
+    } else if (top.second < arr[i].second) {
+      top.second = arr[i].second;
+      s.pop();
+      s.push(top);
     }
   }
-  cout << '\n';
+
+  ull total = 0;
+  while (!s.empty()) {
+    pi p = s.top();
+    total += (p.second - p.first + 1);
+    s.pop();
+  }
+  return total;
+}
+
+ull gridland_metro(ull n, ull m, ull k, vvi track) {
+  if (k < 1) {
+    return m * n;
+  }
+  vp v(k);
+  for (int i=0; i<k; i++) {
+    v[i].first = (m*(track[i][0]-1)) + track[i][1];
+    v[i].second = (m*(track[i][0]-1)) + track[i][2];
+  }
+  ull ans = merge_intervals(v);
+  return (n * m) - ans;
+}
+
+int main() {
+  ull n, m, k;
+  cin >> n >> m >> k;
+  vector< vector<ull> > track(k, vector<ull>(3));
+  for (int i=0; i<k; i++) {
+    for (int j=0; j<3; j++) {
+      cin >> track[i][j];
+    }
+  }
+  ull result = gridland_metro(n, m, k, track);
+  cout << result << '\n';
   return 0;
 }
