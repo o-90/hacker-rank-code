@@ -4,15 +4,16 @@
 #include <iostream>
 #include <algorithm>
 
-char shifter(char c, int n)
-{
-  if (!isalpha(c))
-  {
+using namespace std;
+
+
+char shifter(char c, int n) {
+  if (!isalpha(c)) {
     return c;
   }
   char shifted;
-  if (!isupper(c))
-  {
+
+  if (!isupper(c)) {
     shifted = 'a' + ((c - 'a' + n) % 26);
     return shifted;
   }
@@ -20,20 +21,19 @@ char shifter(char c, int n)
   return shifted;
 }
 
-int main()
-{
+
+int main() {
   int n;
-  std::cin >> n;
-  std::string s;
-  std::cin >> s;
+  cin >> n;
+  string s;
+  cin >> s;
   int k;
-  std::cin >> k;
-  std::vector<char> v(n);
-  for (int i=0; i<n; i++)
-  {
+  cin >> k;
+  vector<char> v(n);
+  for (int i=0; i<n; i++) {
     v[i] = shifter(s[i], k);
   }
-  std::string out_str(v.begin(), v.end());
-  std::cout << out_str << std::endl;
+  string out_str(v.begin(), v.end());
+  cout << out_str << '\n';
   return 0;
 }
